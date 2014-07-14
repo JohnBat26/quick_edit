@@ -8,7 +8,8 @@ INSTALL:
 - Download the plugin to your plugins directory.
 
   examples)
-  'redmine/plugins/quick_edit'
+  cd redmine/plugins/
+  git clone git://git.sourceforge.jp/gitroot/quickedit/quickedit.git
 
 - Restart your redmine.
 
