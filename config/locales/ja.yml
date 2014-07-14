@@ -1,0 +1,12 @@
+# English strings go here for Rails i18n
+ja:
+  label_context_edit: コンテキスト・エディット
+  project_module_context_edit: コンテキスト・エディット プラグイン
+
+  button_quick_edit: Quick Edit
+  label_edit_subject: 題名
+  text_edit_confirm: 新しい値を入力してください。
+  text_is_required: 値の入力が必要です。
+  text_none_is_invalid: noneは特別な意味を持つため指定できません。
+  text_invalid_format: 入力された値の書式に誤りがあります。
+  text_multiple_update_confirm: 複数のチケットが同じ値に更新されます。よろしいですか？

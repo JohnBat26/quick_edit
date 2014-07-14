@@ -1,0 +1,15 @@
+# English strings go here for Rails i18n
+en:
+  # my_label: "My label"
+  label_context_edit: Context Edit
+  project_module_context_edit: Context Edit Plugin
+
+  button_quick_edit: Quick Edit
+  label_edit_subject: Subject
+  text_edit_confirm: Please, input a new value.
+  text_is_required: can't be empty.
+  text_none_is_invalid: can't specify the 'none'.its a special value.
+  text_invalid_format: invalid format.
+  text_multiple_update_confirm: You selected many issues to be the non unique value.\nAre you sure you want to update?
+
+

@@ -1,0 +1,82 @@
+<%
+   custom_fields = @issues.map(&:available_custom_fields).reduce(:&).select do |f|
+     #concat f.field_format
+     %w(string date int).include?(f.field_format)
+   end
+%>
+  <li class="folder">
+    <a href="#" class="submenu"><%= l(:button_quick_edit) %></a>
+    <ul>
+      <%= quick_edit_link(l(:field_subject), :subject, :string, !@can[:update]) %>
+      <%= quick_edit_link(l(:field_parent_issue), :parent_issue_id, :int, !@can[:update]) %>
+
+
+      <% unless @issues.any? {|issue| issue.disabled_core_fields.include?('start_date') } %>
+      <%= quick_edit_link(l(:field_start_date), :start_date, :date, !@can[:update]) %>
+      <% end %>
+
+      <% unless @issues.any? {|issue| issue.disabled_core_fields.include?('due_date') } %>
+      <%= quick_edit_link(l(:field_due_date), :due_date, :date, !@can[:update]) %>
+      <% end %>
+
+      <% custom_fields.each do |f| %>
+      <%= quick_edit_link(f.name, 'custom_field_values[%d]' % f.id, f.field_format, !@can[:update]) %>
+      <% end %>
+   </ul>
+  </li>
+
+<!-- Hook!!! -->
+<%= calendar_for('updated_on') %>
+<script>
+function context_edit_show_edit_dialog(target,pattern,message){
+//<![CDATA[
+  var new_value=prompt(message);
+  //var new_value=prompt(message +"\n" + target);
+  if(new_value === null) return;
+
+  if(new_value == "") {
+    if(target=="subject"){
+      alert('<%=l(:text_is_required)%>');
+      return;
+    }
+
+  } else {
+
+    if(pattern && !pattern.test(new_value)){
+       alert('<%=l(:text_invalid_format)%>');
+       return;
+    }
+  }
+
+  <% if @issues.count > 1 %>
+     if(!confirm('<%=l(:text_multiple_update_confirm)%>')) return;
+  <% end %>
+
+
+  var additional_index;
+  var match = /(.*)\[([0-9]+)\]/.exec(target);
+  if(match){
+     target_name = match[1];
+     additional_index = match[2];
+  }else{
+     target_name = target;
+     additional_index = null;
+  }
+
+  var bulk_update_html_id = '';
+  var bulk_update_url =  '<%= bulk_update_issues_path(:ids => @issue_ids, :back_url => @back)%>';
+  if (additional_index === null) {
+      bulk_update_html_id = '#context_edit_update_link_' + target_name;
+      bulk_update_url += encodeURI('&issue['+target_name+']='+new_value);
+  } else {
+      bulk_update_html_id = '#context_edit_update_link_' + target_name + '_'+additional_index+'_';
+      bulk_update_url += encodeURI('&issue['+target_name+']['+additional_index+']='+new_value);
+  }
+
+  jQuery(bulk_update_html_id)
+     .attr('href',bulk_update_url)
+     .click();
+}
+//]]>
+</script>
+
