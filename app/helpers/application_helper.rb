@@ -6,18 +6,20 @@ module ApplicationHelper
 
       case field_type.to_s
       when "string", "text"
-         pattern = 'null'
+         pattern = ''
       when "int"
-         pattern = '/\d+/'
+         pattern = '\d+'
       when "date"
-         pattern = '/\d{4}-\d{2}-\d{2}/'
+         pattern = '\d{4}-\d{2}-\d{2}'
          help_message += " (yyyy-mm-dd)"
       end
+
+      pattern = h(pattern.gsub(/\\/,'\\\\\\\\'))
 
       sprintf('<li>%s%s</li>',
          context_menu_link(
             h(caption),
-            "javascript:context_edit_show_edit_dialog('#{target_field}', #{pattern}, '#{help_message}')",
+            "javascript:quick_edit_show_input_dialog('#{target_field}', '#{pattern}', '#{help_message}')",
             :class => 'icon-edit',
             :disabled => disabled
          ),

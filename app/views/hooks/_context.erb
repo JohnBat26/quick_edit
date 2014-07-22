@@ -24,21 +24,53 @@
       <% end %>
    </ul>
   </li>
+  <div id="quick_edit_input_dialog" style="display:none;" title="Quick Edit">
+     <span id="quick_edit_input_dialog_message"></span>
+     <form>
+        <input id="quick_edit_input_dialog_new_value" type="text" size="50"></input>
+        <input id="quick_edit_input_dialog_target" type="hidden"></input>
+        <input id="quick_edit_input_dialog_pattern" type="hidden"></input>
+        <input id="quick_edit_input_dialog_dummy" type="text" style="display:none"></input>
+     </form> 
+  </div>
 
-<!-- Hook!!! -->
-<%= calendar_for('updated_on') %>
 <script>
-function context_edit_show_edit_dialog(target,pattern,message){
 //<![CDATA[
-  var new_value=prompt(message);
-  //var new_value=prompt(message +"\n" + target);
+function quick_edit_show_input_dialog(target,pattern,message){
+  $("#quick_edit_input_dialog_target").val(target);
+  $("#quick_edit_input_dialog_pattern").val(pattern);
+  $("#quick_edit_input_dialog_message").html(message);
+  $("#quick_edit_input_dialog").dialog({
+     modal: true,
+     closeOnEscape: false,
+     width: 500,
+     height: 150,
+     buttons: {
+        "Ok" : quick_edit_input_dialog_ok,
+        "Cancel" : quick_edit_input_dialog_cancel
+     },
+     close: quick_edit_input_dialog_close
+  });
+}
+
+function quick_edit_input_dialog_close(){
+  $("#quick_edit_input_dialog").remove();
+}
+
+function quick_edit_input_dialog_cancel(){
+  $("#quick_edit_input_dialog").dialog("close");
+}
+
+function quick_edit_input_dialog_ok(){
+  var new_value = $("#quick_edit_input_dialog_new_value").val();
   if(new_value === null) return;
 
+  var target = $("#quick_edit_input_dialog_target").val();
+  var pattern = new RegExp($("#quick_edit_input_dialog_pattern").val());
+
   if(new_value == "") {
-    if(target=="subject"){
-      alert('<%=l(:text_is_required)%>');
-      return;
-    }
+    alert('<%=l(:text_is_required)%>');
+    return;
 
   } else {
 
