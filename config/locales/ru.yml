@@ -1,0 +1,15 @@
+# English strings go here for Rails i18n
+ru:
+  # my_label: "My label"
+  label_context_edit: Контекстное редактирование
+  project_module_context_edit: Плагин для контекстного редактирования.
+
+  button_quick_edit: Быстрая правка
+  label_edit_subject: Поле
+  text_edit_confirm: Пожалуйства, введите новое значение
+  text_is_required: не может быть пустым.
+  text_none_is_invalid:  нельзя определять как 'none'. Это специальное значение.
+  text_invalid_format: неправильный формат.
+  text_multiple_update_confirm: Вы выделили множество задач с неуникальным значением.\n Вы уверены, что хотите обновить их?
+
+
